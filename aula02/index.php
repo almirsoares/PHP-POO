@@ -7,14 +7,19 @@
 <body> 
     <?php
         require_once 'Caneta.php';
-        $caneta1 = new Caneta;
-        $caneta1->cor = "azul";
-        $caneta1->modelo = "bic cristal";
-
-        var_dump($caneta1);
-
+        $caneta1 = new Caneta("BIC", "Azul", 0.7, 100, true);        $caneta1->cor = "azul";
+        
+        print_r($caneta1);
         $caneta1->raciscar();
+        print_r($caneta1);
+
+        $caneta1->setModelo("BIC CRISTAL");
+        $caneta1->setTampada(false);
+
+        print_r($caneta1);
         $caneta1->raciscar();
+        print_r($caneta1);
+
     ?>
 </body>
 </html>

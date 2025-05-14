@@ -1,74 +1,6 @@
 <?php
 // Importando a classe Lutador
 require_once 'lutador.php';
-
-// Vetor de dois lutadores
-$lutadores = array();
-
-$lutadores[0] = new Lutador(
-    "Anderson Silva",
-    "Brasil",
-    30,
-    1.80,
-    75,
-    10,
-    2,
-    1
-);
-$lutadores[1] = new Lutador(
-    "Conor McGregor",
-    "Irlanda",
-    32,
-    1.75,
-    70,
-    12,
-    3,
-    0
-);
-
-$lutadores[2] = new Lutador(
-    "Khabib Nurmagomedov",
-    "Rússia",
-    29,
-    1.78,
-    77,
-    20,
-    0,
-    0
-);
-
-$lutadores[3] = new Lutador(
-    "Amanda Nunes",
-    "Brasil",
-    33,
-    1.70,
-    65,
-    15,
-    4,
-    0
-);
-
-$lutadores[4] = new Lutador(
-    "Valentina Shevchenko",
-    "Quirguistão",
-    35,
-    1.65,
-    60,
-    20,
-    3,
-    0
-);
-
-$lutadores[5] = new Lutador(
-    "Jon Jones",
-    "EUA",
-    34,
-    1.85,
-    93,
-    26,
-    1,
-    0
-);
 ?>
 
 <!DOCTYPE html>
@@ -80,12 +12,49 @@ $lutadores[5] = new Lutador(
 </head>
 <body>
     <h1>Lutadores</h1>
-    <ul>
-        <?php foreach ($lutadores as $lutador): ?>
-            <?php echo $lutador->apresentar(); 
-            ?>
-            <br>
-        <?php endforeach; ?>
-    </ul>
+    <a href="luta.php">
+        <button type="button">Lutar</button>
+    </a>
+    <form method="post" style="display:inline;">
+        <button type="submit" name="listar">Listar Lutadores</button>
+    </form>
+    <a href="cadastrarLutadores.php">
+        <button type="button">Cadastrar Lutador</button>
+    </a>
+    <?php
+    // Só lista se for POST e o botão 'listar' foi clicado
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['listar'])) {
+        // Conexão com o banco de dados (ajuste conforme necessário)
+        $conn = new mysqli('localhost', 'root', '', 'lutadoresDB');
+        if ($conn->connect_error) {
+            die("Erro de conexão: " . $conn->connect_error);
+        }
+
+        // Consulta para buscar os lutadores
+        $sql = "SELECT * FROM lutadores";
+        $result = $conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                // Supondo que o construtor de Lutador aceita os campos do banco
+                $lutador = new Lutador(
+                    $row['nome'],
+                    $row['nacionalidade'],
+                    $row['idade'],
+                    $row['altura'],
+                    $row['peso'],
+                    $row['vitorias'],
+                    $row['derrotas'],
+                    $row['empates']
+                );
+                $lutador->apresentar();
+                echo "<hr>";
+            }
+        } else {
+            echo "Nenhum lutador encontrado.";
+        }
+        $conn->close();
+    }
+    ?>
 </body>
 </html>

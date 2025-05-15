@@ -76,32 +76,59 @@
     }
     public function setVitorias($vitorias){
         $this->vitorias = $vitorias;
+        $conn = new mysqli("localhost", "root", "", "lutadoresDB");
+        if ($conn->connect_error) {
+            die("Conexão falhou: " . $conn->connect_error);
+        }
+        $stmt = $conn->prepare("UPDATE lutadores SET vitorias = ? WHERE nome = ?");
+        $stmt->bind_param("is", $vitorias, $this->nome);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
     }
     public function getDerrotas(){
         return $this->derrotas;
     }
     public function setDerrotas($derrotas){
         $this->derrotas = $derrotas;
+        $conn = new mysqli("localhost", "root", "", "lutadoresDB");
+        if ($conn->connect_error) {
+            die("Conexão falhou: " . $conn->connect_error);
+        }
+        $stmt = $conn->prepare("UPDATE lutadores SET derrotas = ? WHERE nome = ?");
+        $stmt->bind_param("is", $derrotas, $this->nome);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
     }
     public function getEmpates(){
         return $this->empates;
     }
     public function setEmpates($empates){
         $this->empates = $empates;
+        $conn = new mysqli("localhost", "root", "", "lutadoresDB");
+        if ($conn->connect_error) {
+            die("Conexão falhou: " . $conn->connect_error);
+        }
+        $stmt = $conn->prepare("UPDATE lutadores SET empates = ? WHERE nome = ?");
+        $stmt->bind_param("is", $empates, $this->nome);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
     }
 
 
     // Métodos
     public function apresentar(){
-        echo "<br> Lutador: {$this->getNome()}";
-        echo "<br> Nacionalidade: {$this->getNacionalidade()}";
-        echo "<br> Idade: {$this->getIdade()} anos";
-        echo "<br> Altura: {$this->getAltura()} m";
-        echo "<br> Peso: {$this->getPeso()} kg";
-        echo "<br> Categoria: {$this->getCategoria()}";
-        echo "<br> Vitorias: {$this->getVitorias()}";
-        echo "<br> Derrotas: {$this->getDerrotas()}";
-        echo "<br> Empates: {$this->getEmpates()}";
+        echo "Lutador: {$this->getNome()}<br>";
+        echo "Nacionalidade: {$this->getNacionalidade()}<br>";
+        echo "Idade: {$this->getIdade()} anos<br>";
+        echo "Altura: {$this->getAltura()} m<br>";
+        echo "Peso: {$this->getPeso()} kg<br>";
+        echo "Categoria: {$this->getCategoria()}<br>";
+        echo "Vitorias: {$this->getVitorias()}<br>";
+        echo "Derrotas: {$this->getDerrotas()}<br>";
+        echo "Empates: {$this->getEmpates()}<br>";
     }
 
     public function status(){

@@ -8,6 +8,8 @@ class luta{
     private $desafiante;
     private $rounds;
     private $aprovada;
+    private $resultado = 0;
+
 
     public function __construct()
     {
@@ -39,6 +41,12 @@ class luta{
     public function setAprovada($aprovada){
         $this->aprovada = $aprovada;
     }
+    private function getResultado(){
+        return $this->resultado;
+    }
+    private function setResultado($resultado){
+        $this->resultado = $resultado;
+    }
 
     public function marcarLuta($l1, $l2){
         if($l1->getCategoria() == $l2->getCategoria() && $l1 != $l2){
@@ -47,32 +55,47 @@ class luta{
             $this->setDesafiante($l2);
         }else{
             $this->setAprovada(false);
-            $this->setDesafiado(null);
-            $this->setDesafiante(null);
+            $this->setDesafiado($l1);
+            $this->setDesafiante($l2);
         }
     }
 
     public function lutar(){
+
+
         if($this->getAprovada()){
             $this->getDesafiado()->apresentar();
             $this->getDesafiante()->apresentar();
-            $vencedor = rand(0, 2);
-            switch($vencedor){
-                case 0:
-                    echo "Empate!";
-                    $this->getDesafiado()->empatar();
-                    $this->getDesafiante()->empatar();
-                    break;
-                case 1:
-                    echo $this->getDesafiado()->getNome() . " venceu!";
-                    $this->getDesafiado()->ganhar();
-                    $this->getDesafiante()->perder();
-                    break;
-                case 2:
-                    echo $this->getDesafiante()->getNome() . " venceu!";
-                    $this->getDesafiante()->ganhar();
-                    $this->getDesafiado()->perder();
-                    break;
+            for($i = 0; $i < $this->getRounds(); $i++){
+                echo "Round " . ($i + 1) . "<br>";
+                $vencedor = rand(0, 2);
+                switch($vencedor){
+                    case 0:
+                        echo "Round " . ($i+1) . " = Empate! <br>";
+                        break;
+                    case 1:
+                        echo $this->getDesafiado()->getNome() . " venceu o round " . ($i + 1) . "<br>";
+                        $this->setResultado($this->getResultado() + 1);
+                        break;
+                    case 2:
+                        echo $this->getDesafiante()->getNome() . " venceu o round " . ($i + 1) . "<br>";
+                        $this->setResultado($this->getResultado() - 1);
+                        break;
+                }
+            }
+            echo "<br> Resultado final: ";
+            if($this->getResultado() > 0){
+                echo $this->getDesafiado()->getNome() . " venceu a luta!";
+                $this->getDesafiado()->ganharLuta();
+                $this->getDesafiante()->perderLuta();
+            }elseif($this->getResultado() < 0){
+                echo $this->getDesafiante()->getNome() . " venceu a luta!";
+                $this->getDesafiante()->ganharLuta();
+                $this->getDesafiado()->perderLuta();
+            }else{
+                echo "Empate!";
+                $this->getDesafiado()->empatarLuta();
+                $this->getDesafiante()->empatarLuta();
             }
         }else{
             echo "Luta não aprovada!";

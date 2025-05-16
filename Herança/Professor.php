@@ -1,19 +1,16 @@
 <?php
 
-require_once 'Pessoa.php';
+require_once 'Funcionario.php';
 
-class Professor extends Pessoa {
+class Professor extends Funcionario {
+
     private $especialidade;
-    private $salario;
+    private $nivel;
 
-    public function __construct($nome, $idade, $sexo, $raça, $especialidade, $salario) {
-        parent::__construct($nome, $idade, $sexo, $raça);
+    public function __construct($nome, $idade, $sexo, $raça, $setor, $trabalhando, $salario, $especialidade, $nivel) {
+        parent::__construct($nome, $idade, $sexo, $raça, $setor, $trabalhando, $salario);
         $this->especialidade = $especialidade;
-        $this->salario = $salario;
-    }
-
-    public function receberAumento($aumento) {
-        $this->setSalario($this->getSalario() + $aumento);
+        $this->nivel = $nivel;
     }
 
     public function apresentar() {
@@ -28,13 +25,13 @@ class Professor extends Pessoa {
     public function setEspecialidade($especialidade) {
         $this->especialidade = $especialidade;
     }
-    
-    public function getSalario() {
-        return $this->salario;
+
+    public function getNivel() {
+        return $this->nivel;
     }
-    
-    public function setSalario($salario) {
-        $this->salario = $salario;
+
+    public function setNivel($nivel) {
+        $this->nivel = $nivel;
     }
 }
 

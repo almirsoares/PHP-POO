@@ -6,8 +6,10 @@ class Funcionario extends Pessoa {
     
     private $setor;
     private $trabalhando;
+    private $salario;
 
-    public function __construct($nome, $idade, $sexo, $raça, $setor, $trabalhando) {
+
+    public function __construct($nome, $idade, $sexo, $raça, $setor, $trabalhando, $salario) {
         parent::__construct($nome, $idade, $sexo, $raça);
         $this->setor = $setor;
         $this->trabalhando = $trabalhando;
@@ -20,6 +22,11 @@ class Funcionario extends Pessoa {
     public function mudarSetor($novoSetor) {
         $this->setSetor($novoSetor);
     }
+
+    public function receberAumento($aumento) {
+        $this->setSalario($this->getSalario() + $aumento);
+    }
+    
 
     // Getters e Setters
     public function getSetor() {
@@ -36,5 +43,11 @@ class Funcionario extends Pessoa {
     
     public function setTrabalhando($trabalhando) {
         $this->trabalhando = $trabalhando;
+    }
+    public function getSalario() {
+        return $this->salario;
+    }
+    public function setSalario($salario) {
+        $this->salario = $salario;
     }
 }
